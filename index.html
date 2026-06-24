@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Moin Photo Studio - Photo Copy, Printing, Graphics & Mobile Accessories</title>
+    <meta name="description" content="Professional photo copying, printing, graphics design, and mobile accessories in Mian Channu. Fast, reliable, and affordable services.">
+    <link rel="icon" type="image/jpeg" href="logo.jpeg">
+    <style>
+        :root {
+            --primary-yellow: #FFC107;
+            --dark-yellow: #FF8F00;
+            --light-yellow: #FFECB3;
+            --accent-yellow: #FFD54F;
+            --text-dark: #212121;
+            --text-light: #FFFFFF;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --transition-speed: 0.3s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: #FFF8E1;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            color: var(--dark-yellow);
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--primary-yellow);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        /* ===== NAVIGATION ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary-yellow) 0%, var(--dark-yellow) 100%);
+            box-shadow: 0 2px 10px var(--shadow);
+            z-index: 1000;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .nav-with-ticker {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            font-weight: bold;
+            transition: transform var(--transition-speed) ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+            margin-right: 0.5rem;
+        }
+
+        /* ===== DISCOUNT MESSAGE ===== */
+        .ticker-wrap {
+            width: 100%;
+            background: #fff;
+            color: var(--dark-yellow);
+            padding: 10px 0;
+            border-bottom: 1px solid var(--light-yellow);
+            text-align: center;
+        }
+
+        .ticker {
+            display: inline-block;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        /* ===== MODAL POPUP ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .modal-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 4px solid var(--primary-yellow);
+        }
+
+        .modal-container h2 {
+            color: var(--dark-yellow);
+            margin-bottom: 1rem;
+        }
+
+        .modal-container p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-close {
+            background: var(--dark-yellow);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .modal-close:hover {
+            background: var(--primary-yellow);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all var(--transition-speed) ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: background var(--transition-speed) ease;
+        }
+
+        .mobile-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            margin-top: 72px;
+            padding: 4rem 0;
+            background: linear-gradient(135deg, var(--light-yellow) 0%, var(--primary-yellow) 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -5%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: clamp(1.8rem, 6vw, 3rem);
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            color: var(--text-dark);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 1s ease 0.2s both;
+            padding: 0 1rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--dark-yellow);
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
+            transition: all var(--transition-speed) ease;
+            box-shadow: 0 4px 15px rgba(255, 143, 0, 0.4);
+            animation: fadeInUp 1s ease 0.4s both;
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+            min-height: 48px;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 143, 0, 0.6);
+        }
+
+        .cta-button:active {
+            transform: translateY(-1px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== SERVICES SECTION ===== */
+        .services {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .service-card {
+            background: white;
+            border: 2px solid var(--light-yellow);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all var(--transition-speed) ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--primary-yellow);
+            transform: scaleX(0);
+            transition: transform var(--transition-speed) ease;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(255, 193, 7, 0.2);
+            border-color: var(--primary-yellow);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--light-yellow);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .service-card:hover .service-icon {
+            background: var(--primary-yellow);
+            transform: rotate(360deg);
+            transition: transform 0.6s ease, background var(--transition-speed) ease;
+        }
+
+        .service-card h3 {
+            color: var(--dark-yellow);
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .service-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* ===== PAYMENT METHODS SECTION ===== */
+        .payments {
+            padding: 5rem 0;
+            background: var(--light-yellow);
+        }
+
+        .payment-methods {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .payment-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all var(--transition-speed) ease;
+            border: 3px solid transparent;
+            flex-shrink: 0;
+        }
+
+        .payment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-color: var(--primary-yellow);
+        }
+
+        .payment-logo {
+            width: 180px;
+            height: 100px;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border-radius: 10px;
+            padding: 10px;
+            overflow: hidden;
+        }
+
+        .payment-logo img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform var(--transition-speed) ease;
+        }
+
+        .payment-card:hover .payment-logo img {
+            transform: scale(1.05);
+        }
+
+        .jazzcash-bg {
+            background: #FFF5F5;
+            border: 2px solid #FEE2E2;
+        }
+
+        .easypaisa-bg {
+            background: #F0FDF4;
+            border: 2px solid #DCFCE7;
+        }
+
+        .bank-bg {
+            background: #EFF6FF;
+            border: 2px solid #DBEAFE;
+        }
+
+        .payment-card h3 {
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .payment-number {
+            font-family: monospace;
+            background: var(--light-yellow);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            color: var(--dark-yellow);
+            font-size: 1.1rem;
+            word-break: break-all;
+        }
+
+        /* ===== PRODUCTS SECTION ===== */
+        .products {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all var(--transition-speed) ease;
+            border: 2px solid var(--light-yellow);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255, 193, 7, 0.2);
+        }
+
+        .product-image {
+            height: 200px;
+            background: var(--light-yellow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image::after {
+            content: 'View Details';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 193, 7, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity var(--transition-speed) ease;
+        }
+
+        .product-card:hover .product-image::after {
+            opacity: 1;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-info h3 {
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            color: var(--dark-yellow);
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-desc {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* ===== CONTACT SECTION ===== */
+        .contact {
+            padding: 5rem 0;
+            background: var(--light-yellow);
+        }
+
+        .contact-info {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contact-info h3 {
+            color: var(--dark-yellow);
+            margin-bottom: 1rem;
+            font-size: clamp(1.5rem, 4vw, 1.8rem);
+        }
+
+        .contact-info > p {
+            margin-bottom: 2rem;
+            color: #666;
+        }
+
+        .contact-details-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .contact-detail {
+            display: flex;
+            align-items: center;
+            padding: 1.2rem;
+            background: white;
+            border-radius: 10px;
+            transition: all var(--transition-speed) ease;
+            width: 100%;
+            max-width: 450px;
+            text-align: left;
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+            border: 2px solid transparent;
+            min-height: 56px;
+        }
+
+        .contact-detail:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-color: var(--primary-yellow);
+        }
+
+        .contact-detail:active {
+            transform: translateX(5px);
+        }
+
+        .contact-icon {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .contact-detail strong {
+            color: var(--dark-yellow);
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        .contact-detail .info-text {
+            color: #666;
+            font-size: 0.95rem;
+            word-break: break-word;
+        }
+
+        .contact-detail.whatsapp {
+            background: #25D366;
+            color: white;
+        }
+
+        .contact-detail.whatsapp:hover {
+            border-color: #128C7E;
+            background: #22c35e;
+        }
+
+        .contact-detail.whatsapp strong {
+            color: white;
+        }
+
+        .contact-detail.whatsapp .info-text {
+            color: rgba(255,255,255,0.9);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--primary-yellow);
+            text-decoration: none;
+            transition: color var(--transition-speed) ease;
+            padding: 0.25rem 0;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-links {
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: transform var(--transition-speed) ease;
+            display: inline-block;
+        }
+
+        .social-links a:hover {
+            transform: scale(1.2);
+        }
+
+        .copyright {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .copyright p:last-child {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        /* ===== NOTICE BOX ===== */
+        .notice-box {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+            border-left: 5px solid var(--primary-yellow);
+        }
+
+        .notice-box h4 {
+            color: var(--dark-yellow);
+            margin-bottom: 0.5rem;
+        }
+
+        .notice-box p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* ===== RESPONSIVE STYLES ===== */
+
+        /* Tablet (768px and below) */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: linear-gradient(135deg, var(--primary-yellow) 0%, var(--dark-yellow) 100%);
+                flex-direction: column;
+                padding: 1rem;
+                gap: 0.5rem;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .nav-link {
+                display: block;
+                text-align: center;
+                padding: 0.75rem 1rem;
+                border-radius: 8px;
+                width: 100%;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .hero {
+                margin-top: 62px;
+                padding: 3rem 0;
+            }
+
+            .services,
+            .payments,
+            .products,
+            .contact {
+                padding: 3rem 0;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .section-title {
+                margin-bottom: 2rem;
+            }
+        }
+
+        /* Small phones (480px and below) */
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .hero {
+                margin-top: 60px;
+                padding: 2.5rem 0;
+            }
+
+            .services,
+            .payments,
+            .products,
+            .contact {
+                padding: 2.5rem 0;
+            }
+
+            .service-card,
+            .product-card,
+            .payment-card {
+                padding: 1.5rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .payment-methods {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .payment-card {
+                width: 100%;
+                max-width: 320px;
+            }
+
+            .payment-logo {
+                width: 150px;
+                height: 80px;
+            }
+
+            .contact-detail {
+                padding: 1rem;
+            }
+
+            .contact-detail:hover {
+                transform: translateX(5px);
+            }
+
+            .footer-links {
+                gap: 1rem;
+            }
+        }
+
+        /* Extra small devices (360px and below) */
+        @media (max-width: 360px) {
+            .hero {
+                padding: 2rem 0;
+            }
+
+            .cta-button {
+                padding: 0.875rem 2rem;
+                width: 90%;
+                max-width: 280px;
+            }
+        }
+
+        /* Landscape mode on phones */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .hero {
+                padding: 2rem 0;
+            }
+
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+
+            .hero p {
+                font-size: 0.9rem;
+                margin-bottom: 1rem;
+            }
+        }
+
+        /* Hover only on devices that support it */
+        @media (hover: hover) {
+            .contact-detail:hover {
+                transform: translateX(10px);
+            }
+        }
+
+        @media (hover: none) {
+            .contact-detail:active {
+                transform: translateX(5px);
+                background: var(--light-yellow);
+            }
+
+            .contact-detail.whatsapp:active {
+                background: #1eae57;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <img src="logo.jpeg" alt="Moin Photo Studio Logo" class="logo-img" style="width: 64px; height: 64px; border-radius: 50%; margin-right: 0.5rem; object-fit: cover; border: 2px solid white;">
+                <span>Moin Photo Studio</span>
+            </a>
+
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#services" class="nav-link">Services</a></li>
+                <li><a href="#payments" class="nav-link">Payments</a></li>
+                <li><a href="#products" class="nav-link">Accessories</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation menu">☰</button>
+        </div>
+        <div class="ticker-wrap">
+            <div class="ticker">
+                🎉 Special Offer: Contact us and book any order through our website and get  10% discount! 🚀
+            </div>
+        </div>
+    </nav>
+
+    <!-- Discount Modal -->
+    <div id="discountModal" class="modal-overlay">
+        <div class="modal-container">
+            <h2>🎁 Special Discount!</h2>
+            <p>If you contact us and book any order through our website, you will get a <strong>10% discount</strong> on our services!</p>
+            <button class="modal-close" onclick="closeModal()">Great, Thanks!</button>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container hero-content">
+            <h1>Your One-Stop Digital Solution</h1>
+            <p>Professional photo copying, printing, graphics design, and mobile accessories. Fast, reliable, and affordable services with easy digital payments.</p>
+            <a href="#services" class="cta-button">Explore Our Services</a>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <h2 class="section-title">Our Services</h2>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">📄</div>
+                    <h3>Photo Copying</h3>
+                    <p>High-quality black & white and color photocopying services. Fast turnaround for single pages or bulk orders at competitive rates.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🖨️</div>
+                    <h3>Photo Printing</h3>
+                    <p>Professional photo printing on premium paper. Available in all sizes from passport photos to large posters with vibrant colors.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🎨</div>
+                    <h3>Graphics Design</h3>
+                    <p>Creative design services for logos, banners, business cards, wedding cards, and marketing materials by skilled designers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment Methods Section -->
+    <section class="payments" id="payments">
+        <div class="container">
+            <h2 class="section-title">Digital Payment Methods</h2>
+            <p style="text-align: center; margin-bottom: 2rem; color: #666;">Send money easily through these trusted platforms</p>
+            
+            <div class="payment-methods">
+                <!-- JazzCash -->
+                <a href="#jazzcash-payment" class="payment-card" style="text-decoration: none; color: inherit;">
+                    <div class="payment-logo jazzcash-bg">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/JazzCash_logo_%282025%29.png" 
+                             alt="JazzCash Logo" 
+                             title="JazzCash"
+                             loading="lazy">
+                    </div>
+                    <h3>JazzCash</h3>
+                    <p>Send money instantly</p>
+                    <div class="payment-number">03XX-XXXXXXX</div>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">Account Title: Moin Photo Studio</p>
+                </a>
+
+                <!-- EasyPaisa -->
+                <div class="payment-card">
+                    <div class="payment-logo easypaisa-bg">
+                        <img src="https://img.freepik.com/premium-vector/easypaisa-logo_977193-195.jpg" 
+                             alt="EasyPaisa Logo" 
+                             title="EasyPaisa"
+                             loading="lazy">
+                    </div>
+                    <h3>EasyPaisa</h3>
+                    <p>Quick and secure transfers</p>
+                    <div class="payment-number">03XX-XXXXXXX</div>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">Account Title: Moin Photo Studio</p>
+                </div>
+
+                <!-- NAyapay -->
+                <div class="payment-card">
+                    <div class="payment-logo easypaisa-bg">
+                        <img src="moin_photo_studio_logo.jpg" 
+                             alt="NayaPay Logo" 
+                             title="NayaPay"
+                             loading="lazy">
+                    </div>
+                    <h3>NayaPay</h3>
+                    <p>Quick and secure transfers</p>
+                    <div class="payment-number">03XX-XXXXXXX</div>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">Account Title: Moin Photo Studio</p>
+                </div>
+            </div>
+
+            <div class="notice-box">
+                <h4>⚠️ Important Notice</h4>
+                <p>Please always confirm the account details before sending money. Share your transaction ID after payment for quick verification. For large amounts, please visit our shop in person.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- JazzCash QR Section -->
+    <section id="jazzcash-payment" style="padding: 5rem 0; background: #fff; display: none;">
+        <div class="container" style="text-align: center;">
+            <h2 class="section-title">JazzCash Payment</h2>
+            <div style="max-width: 400px; margin: 0 auto; padding: 2rem; border: 2px dashed var(--primary-yellow); border-radius: 20px;">
+                <p style="margin-bottom: 1.5rem;">Scan the QR code below to pay via JazzCash</p>
+                <div style="width: 250px; height: 250px; background: #f0f0f0; margin: 0 auto; display: flex; align-items: center; justify-content: center; border-radius: 10px;">
+                    <p style="color: #999;">[PLACEHOLDER FOR QR CODE]</p>
+                </div>
+                <p style="margin-top: 1.5rem; font-weight: bold; color: var(--dark-yellow);">Moin Photo Studio</p>
+                <p>03XX-XXXXXXX</p>
+                <button onclick="document.getElementById('jazzcash-payment').style.display='none'" style="margin-top: 2rem; background: var(--dark-yellow); color: white; border: none; padding: 0.5rem 1.5rem; border-radius: 20px; cursor: pointer;">Close Payment View</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+        <div class="container">
+            <h2 class="section-title">Mobile Accessories</h2>
+            <p style="text-align: center; margin-bottom: 2rem; color: #666;">Quality accessories at affordable prices</p>
+            
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">📱</div>
+                    <div class="product-info">
+                        <h3>Phone Cases</h3>
+                        <div class="product-price">Starting from Rs. 299</div>
+                        <p class="product-desc">Protective covers for all major brands including iPhone, Samsung, Oppo, Vivo, and more.</p>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">🛡️</div>
+                    <div class="product-info">
+                        <h3>Screen Protectors</h3>
+                        <div class="product-price">Starting from Rs. 149</div>
+                        <p class="product-desc">Tempered glass and matte screen protectors with free installation service.</p>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">🔌</div>
+                    <div class="product-info">
+                        <h3>Chargers & Cables</h3>
+                        <div class="product-price">Starting from Rs. 199</div>
+                        <p class="product-desc">Fast chargers, data cables, and wireless charging pads for all devices.</p>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">🎧</div>
+                    <div class="product-info">
+                        <h3>Headphones & Earphones</h3>
+                        <div class="product-price">Starting from Rs. 349</div>
+                        <p class="product-desc">Wired and wireless options with warranty. Brands include Audionic, Ronin, and more.</p>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">🔋</div>
+                    <div class="product-info">
+                        <h3>Power Banks</h3>
+                        <div class="product-price">Starting from Rs. 899</div>
+                        <p class="product-desc">Portable charging solutions from 10,000mAh to 30,000mAh capacity with fast charging support.</p>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">🚗</div>
+                    <div class="product-info">
+                        <h3>Mobile Holders</h3>
+                        <div class="product-price">Starting from Rs. 249</div>
+                        <p class="product-desc">Car mounts, desk stands, and selfie sticks for convenient usage.</p>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">🔊</div>
+                    <div class="product-info">
+                        <h3>Speakers</h3>
+                        <div class="product-price">Starting from Rs. 599</div>
+                        <p class="product-desc">Portable Bluetooth speakers, mini speakers, and wireless audio systems with great sound quality.</p>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">💾</div>
+                    <div class="product-info">
+                        <h3>Storage Devices</h3>
+                        <div class="product-price">Starting from Rs. 499</div>
+                        <p class="product-desc">Portable USB, memory cards, and external hard drives for all your storage needs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title">Contact Us</h2>
+            
+            <div class="contact-info">
+                <h3>Get in Touch</h3>
+                <p>Visit us or contact us directly. We're here to help!</p>
+                
+                <div class="contact-details-stack">
+                    <!-- Address - Opens Google Maps -->
+                    <a href="https://maps.app.goo.gl/LLWF6jx1ssmJMnFTA" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="contact-detail"
+                       aria-label="Open location in Google Maps">
+                        <span class="contact-icon">📍</span>
+                        <div>
+                            <strong>Address</strong>
+                            <span class="info-text">Thana Chowk, Pull Bazar, GT Road, Mian Channu, Pakistan</span>
+                        </div>
+                    </a>
+
+                    <!-- Phone - Opens dial pad -->
+                    <a href="tel:+923032241758" 
+                       class="contact-detail"
+                       aria-label="Call phone number">
+                        <span class="contact-icon">📞</span>
+                        <div>
+                            <strong>Phone</strong>
+                            <span class="info-text">+92 303-2241758 (Tap to call)</span>
+                        </div>
+                    </a>
+
+                    <!-- Email - Opens email client -->
+                    <a href="mailto:moindeen848@mail.com" 
+                       class="contact-detail"
+                       aria-label="Send email">
+                        <span class="contact-icon">✉️</span>
+                        <div>
+                            <strong>Email</strong>
+                            <span class="info-text">moindeen848@mail.com (Tap to email)</span>
+                        </div>
+                    </a>
+
+                    <!-- Business Hours -->
+                    <div class="contact-detail" style="cursor: default;">
+                        <span class="contact-icon">🕐</span>
+                        <div>
+                            <strong>Business Hours</strong>
+                            <span class="info-text">Mon - Sun: 7:00 AM - 7:00 PM</span>
+                        </div>
+                    </div>
+
+                    <!-- WhatsApp - Opens WhatsApp chat -->
+                    <a href="https://wa.me/923032241758" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="contact-detail whatsapp"
+                       aria-label="Chat on WhatsApp">
+                        <span class="contact-icon">💬</span>
+                        <div>
+                            <strong>WhatsApp</strong>
+                            <span class="info-text">+92 303-2241758 (Tap to chat)</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="#home">Home</a>
+                    <a href="#services">Services</a>
+                    <a href="#payments">Payments</a>
+                    <a href="#products">Products</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook" title="Facebook">📘</a>
+                    <a href="#" aria-label="Instagram" title="Instagram">📸</a>
+                    <a href="https://wa.me/923032241758" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">💬</a>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Moin Photo Studio. All rights reserved.</p>
+                <p>Designed with 💛 for our valued customers</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        function toggleMobileMenu() {
+            navMenu.classList.toggle('active');
+            mobileToggle.textContent = navMenu.classList.contains('active') ? '✕' : '☰';
+        }
+
+        mobileToggle.addEventListener('click', toggleMobileMenu);
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.navbar')) {
+                navMenu.classList.remove('active');
+                mobileToggle.textContent = '☰';
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href === '#') return;
+                
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    
+                    // Close mobile menu after click
+                    if (window.innerWidth <= 768) {
+                        navMenu.classList.remove('active');
+                        mobileToggle.textContent = '☰';
+                    }
+                }
+            });
+        });
+
+        // Navbar shadow on scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.2)';
+            } else {
+                navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+            }
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.service-card, .product-card, .payment-card').forEach((el) => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Add touch-friendly active states
+        document.querySelectorAll('.contact-detail').forEach(el => {
+            el.addEventListener('touchstart', function() {
+                this.style.transform = 'translateX(5px) scale(0.98)';
+            }, { passive: true });
+            
+            el.addEventListener('touchend', function() {
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            }, { passive: true });
+        });
+
+        // Discount Modal Logic
+        const modal = document.getElementById('discountModal');
+        
+        window.onload = function() {
+            setTimeout(() => {
+                modal.style.display = 'flex';
+            }, 1000);
+        };
+
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        // JazzCash Payment Section Toggle
+        document.querySelector('a[href="#jazzcash-payment"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            const paymentSection = document.getElementById('jazzcash-payment');
+            paymentSection.style.display = 'block';
+            paymentSection.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        };
+    </script>
+</body>
+</html>
