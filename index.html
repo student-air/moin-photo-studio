@@ -3,1366 +3,1878 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Moin Photo Studio - Photo Copy, Printing, Graphics & Mobile Accessories</title>
+    <title>Moin Photo Studio — Photo Copy, Printing, Graphics & Mobile Accessories</title>
     <meta name="description" content="Professional photo copying, printing, graphics design, and mobile accessories in Mian Channu. Fast, reliable, and affordable services.">
     <link rel="icon" type="image/jpeg" href="logo.jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
     <style>
+        /* ===========================
+           DESIGN TOKENS
+        =========================== */
         :root {
-            --primary-yellow: #FFC107;
-            --dark-yellow: #FF8F00;
-            --light-yellow: #FFECB3;
-            --accent-yellow: #FFD54F;
-            --text-dark: #212121;
-            --text-light: #FFFFFF;
-            --shadow: rgba(0, 0, 0, 0.1);
-            --transition-speed: 0.3s;
+            /* Palette — warm amber on deep ink */
+            --amber-50:  #FFF8E7;
+            --amber-100: #FFE9A0;
+            --amber-300: #FFCA28;
+            --amber-500: #F59E0B;
+            --amber-700: #B45309;
+            --ink-950:   #0D0B07;
+            --ink-900:   #1A1710;
+            --ink-800:   #26220F;
+            --ink-600:   #4A4530;
+            --ink-400:   #8C8570;
+            --ink-200:   #D6D0BB;
+            --white:     #FFFFFF;
+
+            /* Glass surface */
+            --glass-bg:      rgba(255,255,255,0.07);
+            --glass-border:  rgba(255,202,40,0.18);
+            --glass-shadow:  0 8px 32px rgba(0,0,0,0.35);
+
+            /* Typography */
+            --font-display: 'Syne', sans-serif;
+            --font-body:    'DM Sans', sans-serif;
+
+            /* Motion */
+            --ease-out-expo: cubic-bezier(0.16,1,0.3,1);
+            --speed-fast: 0.18s;
+            --speed-med:  0.35s;
+            --speed-slow: 0.6s;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
+        /* ===========================
+           LIGHT MODE OVERRIDES
+           Remaps surface tokens only —
+           amber accent stays identical
+        =========================== */
+        @media (prefers-color-scheme: light) {
+            :root {
+                /* Flip surfaces to warm cream/white */
+                --ink-950:  #FFFBF2;   /* body bg        → warm white    */
+                --ink-900:  #FFF5E0;   /* section alt bg → soft cream    */
+                --ink-800:  #FFEDC4;   /* card bg        → light amber   */
+                --ink-600:  #C8B88A;   /* muted border                   */
+                --ink-400:  #8A7A55;   /* secondary text                 */
+                --ink-200:  #2A2010;   /* body text      → near-black    */
+
+                /* Glass needs inversion in light */
+                --glass-bg:     rgba(255,255,255,0.55);
+                --glass-border: rgba(245,158,11,0.25);
+                --glass-shadow: 0 8px 32px rgba(0,0,0,0.10);
+            }
+
+            /* Navbar scrolled state */
+            .navbar.scrolled {
+                background: rgba(255,251,242,0.93);
+                box-shadow: 0 1px 0 rgba(245,158,11,0.18);
+            }
+
+            /* Mobile nav dropdown */
+            .nav-menu {
+                background: rgba(255,251,242,0.97) !important;
+                border-top-color: rgba(245,158,11,0.2) !important;
+            }
+
+            /* Nav links in light */
+            .nav-link { color: var(--ink-200); }
+
+            /* Hero orbs — softer in light */
+            .hero-orb-1 {
+                background: radial-gradient(circle, rgba(245,158,11,0.18) 0%, transparent 70%);
+            }
+            .hero-orb-2 {
+                background: radial-gradient(circle, rgba(180,83,9,0.10) 0%, transparent 70%);
+            }
+
+            /* Service cards */
+            .service-card {
+                background: var(--white);
+                border-color: rgba(245,158,11,0.15);
+            }
+            .service-card:hover {
+                box-shadow: 0 20px 40px rgba(0,0,0,0.10), 0 0 0 1px rgba(245,158,11,0.2);
+            }
+
+            /* Payment section bg */
+            .payments { background: var(--ink-900); }
+
+            /* Payment cards */
+            .payment-card {
+                background: var(--white);
+                border-color: rgba(0,0,0,0.07);
+            }
+            .payment-card:hover {
+                box-shadow: 0 16px 36px rgba(0,0,0,0.12), 0 0 0 1px rgba(245,158,11,0.3);
+            }
+
+            /* Contact section */
+            .contact { background: var(--ink-900); }
+            .contact-item {
+                background: var(--white);
+                border-color: rgba(0,0,0,0.07);
+            }
+            .contact-item:hover {
+                background: var(--ink-950);
+                border-color: rgba(245,158,11,0.35);
+            }
+
+            /* Modals */
+            .modal-box,
+            .payment-modal-box {
+                background: var(--white);
+                border-color: rgba(245,158,11,0.3);
+            }
+
+            .pm-details {
+                background: var(--ink-800);
+                border-color: rgba(0,0,0,0.06);
+            }
+
+            .pm-btn-secondary {
+                background: var(--ink-800);
+                color: var(--ink-200);
+                border-color: rgba(0,0,0,0.1);
+            }
+            .pm-btn-secondary:hover { background: var(--ink-600); color: var(--white); }
+
+            .pm-close {
+                background: var(--ink-800);
+                border-color: rgba(0,0,0,0.1);
+                color: var(--ink-200);
+            }
+
+            /* Notice box */
+            .notice-box {
+                background: rgba(245,158,11,0.08);
+            }
+
+            /* Product cards */
+            .product-card {
+                background: var(--white);
+                border-color: rgba(0,0,0,0.07);
+            }
+            .product-img-area { background: var(--ink-800); }
+
+            /* Footer */
+            footer { border-top-color: rgba(0,0,0,0.1); }
+            .footer-socials a {
+                background: var(--ink-800);
+                border-color: rgba(0,0,0,0.08);
+            }
+
+            /* QR image border */
+            .qr-img { border-color: rgba(245,158,11,0.3); background: var(--ink-800); }
+        }
+
+        /* ===========================
+           RESET & BASE
+        =========================== */
+        *, *::before, *::after {
+            margin: 0; padding: 0;
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
         }
 
-        html {
-            scroll-behavior: smooth;
-            font-size: 16px;
-        }
+        html { scroll-behavior: smooth; font-size: 16px; }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--text-dark);
-            background-color: #FFF8E1;
+            font-family: var(--font-body);
+            background: var(--ink-950);
+            color: var(--ink-200);
+            line-height: 1.65;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
+        /* Subtle noise texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
         .container {
-            max-width: 1200px;
+            max-width: 1160px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 24px;
+        }
+
+        /* ===========================
+           SECTION LABELS & TITLES
+        =========================== */
+        .eyebrow {
+            display: inline-block;
+            font-family: var(--font-display);
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--amber-300);
+            margin-bottom: 0.75rem;
         }
 
         .section-title {
-            text-align: center;
-            font-size: clamp(1.8rem, 5vw, 2.5rem);
-            color: var(--dark-yellow);
-            margin-bottom: 3rem;
-            position: relative;
+            font-family: var(--font-display);
+            font-size: clamp(1.9rem, 4.5vw, 2.8rem);
+            font-weight: 800;
+            color: var(--white);
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
         }
 
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 4px;
-            background: var(--primary-yellow);
-            margin: 10px auto;
-            border-radius: 2px;
+        .section-sub {
+            font-size: 1rem;
+            color: var(--ink-400);
+            max-width: 520px;
+            margin-bottom: 3.5rem;
         }
 
-        /* ===== NAVIGATION ===== */
+        .section-header { margin-bottom: 3rem; }
+
+        /* ===========================
+           GLASSMORPHISM CARD
+        =========================== */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: var(--glass-shadow);
+        }
+
+        /* ===========================
+           NAVIGATION
+        =========================== */
         .navbar {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: linear-gradient(135deg, var(--primary-yellow) 0%, var(--dark-yellow) 100%);
-            box-shadow: 0 2px 10px var(--shadow);
+            top: 0; left: 0; width: 100%;
             z-index: 1000;
-            transition: all var(--transition-speed) ease;
+            transition: background var(--speed-med) ease,
+                        box-shadow var(--speed-med) ease;
         }
 
-        .nav-with-ticker {
-            display: flex;
-            flex-direction: column;
+        .navbar.scrolled {
+            background: rgba(13,11,7,0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 1px 0 rgba(255,202,40,0.12);
         }
 
-        .nav-container {
+        .nav-inner {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 0.6rem 0;
+            justify-content: space-between;
+            padding: 1rem 0;
         }
 
         .logo {
             display: flex;
             align-items: center;
+            gap: 0.6rem;
             text-decoration: none;
-            color: var(--text-light);
-            font-size: clamp(1.1rem, 3vw, 1.5rem);
-            font-weight: bold;
-            transition: transform var(--transition-speed) ease;
         }
 
-        .logo:hover {
-            transform: scale(1.05);
+        .logo-img {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--amber-300);
         }
 
-        .logo-icon {
-            font-size: 2rem;
-            margin-right: 0.5rem;
+        .logo-text {
+            font-family: var(--font-display);
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--white);
+            line-height: 1.1;
         }
 
-        /* ===== DISCOUNT MESSAGE ===== */
-        .ticker-wrap {
-            width: 100%;
-            background: #fff;
-            color: var(--dark-yellow);
-            padding: 10px 0;
-            border-bottom: 1px solid var(--light-yellow);
-            text-align: center;
-        }
-
-        .ticker {
-            display: inline-block;
-            font-weight: bold;
-            font-size: 1rem;
-        }
-
-        /* ===== MODAL POPUP ===== */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-        }
-
-        .modal-container {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            border: 4px solid var(--primary-yellow);
-        }
-
-        .modal-container h2 {
-            color: var(--dark-yellow);
-            margin-bottom: 1rem;
-        }
-
-        .modal-container p {
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .modal-close {
-            background: var(--dark-yellow);
-            color: white;
-            border: none;
-            padding: 0.8rem 2rem;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background 0.3s;
-        }
-
-        .modal-close:hover {
-            background: var(--primary-yellow);
+        .logo-sub {
+            font-size: 0.65rem;
+            color: var(--amber-300);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            display: block;
         }
 
         .nav-menu {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: 0.25rem;
         }
 
         .nav-link {
             text-decoration: none;
-            color: var(--text-light);
+            font-size: 0.875rem;
             font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            transition: all var(--transition-speed) ease;
-            position: relative;
+            color: var(--ink-200);
+            padding: 0.45rem 0.9rem;
+            border-radius: 100px;
+            transition: color var(--speed-fast) ease,
+                        background var(--speed-fast) ease;
         }
 
         .nav-link:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
+            color: var(--amber-300);
+            background: rgba(255,202,40,0.1);
         }
 
+        .nav-cta {
+            background: var(--amber-500);
+            color: var(--ink-950) !important;
+            font-weight: 700;
+            padding: 0.45rem 1.1rem;
+        }
+
+        .nav-cta:hover {
+            background: var(--amber-300) !important;
+            color: var(--ink-950) !important;
+        }
+
+        /* Ticker */
+        .ticker-bar {
+            background: var(--amber-500);
+            padding: 0.4rem 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .ticker-track {
+            display: inline-flex;
+            animation: ticker 22s linear infinite;
+        }
+
+        .ticker-item {
+            font-family: var(--font-display);
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--ink-950);
+            padding: 0 3rem;
+            letter-spacing: 0.05em;
+        }
+
+        @keyframes ticker {
+            from { transform: translateX(0); }
+            to   { transform: translateX(-50%); }
+        }
+
+        /* Mobile toggle */
         .mobile-toggle {
             display: none;
             background: none;
-            border: none;
-            color: var(--text-light);
-            font-size: 1.5rem;
+            border: 1px solid var(--glass-border);
+            color: var(--white);
+            width: 40px; height: 40px;
+            border-radius: 10px;
+            font-size: 1.2rem;
             cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 8px;
-            transition: background var(--transition-speed) ease;
+            align-items: center;
+            justify-content: center;
+            transition: background var(--speed-fast) ease;
         }
 
-        .mobile-toggle:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
+        .mobile-toggle:hover { background: var(--glass-bg); }
 
-        /* ===== HERO SECTION ===== */
+        /* ===========================
+           HERO
+        =========================== */
         .hero {
-            margin-top: 72px;
-            padding: 4rem 0;
-            background: linear-gradient(135deg, var(--light-yellow) 0%, var(--primary-yellow) 100%);
-            text-align: center;
+            min-height: 100svh;
+            display: flex;
+            align-items: center;
+            padding: 7rem 0 5rem;
             position: relative;
             overflow: hidden;
         }
 
-        .hero::before {
-            content: '';
+        /* Large ambient orbs */
+        .hero-orb {
             position: absolute;
-            top: -50%;
-            right: -10%;
-            width: 500px;
-            height: 500px;
-            background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
-            animation: float 6s ease-in-out infinite;
+            filter: blur(80px);
+            pointer-events: none;
         }
 
-        .hero::after {
-            content: '';
-            position: absolute;
-            bottom: -30%;
-            left: -5%;
-            width: 300px;
-            height: 300px;
-            background: rgba(255, 255, 255, 0.15);
+        .hero-orb-1 {
+            width: 560px; height: 560px;
+            background: radial-gradient(circle, rgba(245,158,11,0.22) 0%, transparent 70%);
+            top: -180px; right: -120px;
+            animation: drift 12s ease-in-out infinite;
+        }
+
+        .hero-orb-2 {
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(180,83,9,0.15) 0%, transparent 70%);
+            bottom: -100px; left: -80px;
+            animation: drift 16s ease-in-out infinite reverse;
+        }
+
+        @keyframes drift {
+            0%,100% { transform: translate(0,0) scale(1); }
+            50%      { transform: translate(20px,-30px) scale(1.05); }
+        }
+
+        .hero-content { position: relative; z-index: 1; max-width: 640px; }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.35rem 0.9rem;
+            border-radius: 100px;
+            background: rgba(245,158,11,0.12);
+            border: 1px solid rgba(245,158,11,0.3);
+            font-size: 0.8rem;
+            color: var(--amber-300);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            animation: fadeUp 0.8s var(--ease-out-expo) both;
+        }
+
+        .hero-badge-dot {
+            width: 6px; height: 6px;
+            background: var(--amber-300);
             border-radius: 50%;
-            animation: float 8s ease-in-out infinite reverse;
+            animation: pulse-dot 2s ease-in-out infinite;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
+        @keyframes pulse-dot {
+            0%,100% { opacity: 1; transform: scale(1); }
+            50%      { opacity: 0.5; transform: scale(0.7); }
         }
 
         .hero h1 {
-            font-size: clamp(1.8rem, 6vw, 3rem);
-            color: var(--text-dark);
-            margin-bottom: 1rem;
-            animation: fadeInUp 1s ease;
-            line-height: 1.2;
+            font-family: var(--font-display);
+            font-size: clamp(2.4rem, 7vw, 4.2rem);
+            font-weight: 800;
+            line-height: 1.0;
+            color: var(--white);
+            margin-bottom: 1.25rem;
+            animation: fadeUp 0.9s var(--ease-out-expo) 0.1s both;
         }
 
-        .hero p {
-            font-size: clamp(1rem, 2.5vw, 1.3rem);
-            color: var(--text-dark);
-            margin-bottom: 2rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            animation: fadeInUp 1s ease 0.2s both;
-            padding: 0 1rem;
+        .hero h1 em {
+            font-style: normal;
+            color: var(--amber-300);
         }
 
-        .cta-button {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            background: var(--dark-yellow);
-            color: var(--text-light);
+        .hero-desc {
+            font-size: clamp(1rem, 2vw, 1.1rem);
+            color: var(--ink-400);
+            line-height: 1.7;
+            margin-bottom: 2.25rem;
+            animation: fadeUp 0.9s var(--ease-out-expo) 0.2s both;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            animation: fadeUp 0.9s var(--ease-out-expo) 0.3s both;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.75rem;
+            border-radius: 100px;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 0.925rem;
             text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: clamp(1rem, 2.5vw, 1.1rem);
-            transition: all var(--transition-speed) ease;
-            box-shadow: 0 4px 15px rgba(255, 143, 0, 0.4);
-            animation: fadeInUp 1s ease 0.4s both;
-            position: relative;
-            overflow: hidden;
-            border: none;
             cursor: pointer;
+            border: none;
+            transition: transform var(--speed-fast) var(--ease-out-expo),
+                        box-shadow var(--speed-fast) ease;
             min-height: 48px;
         }
 
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: left 0.5s ease;
+        .btn-primary {
+            background: var(--amber-500);
+            color: var(--ink-950);
+            box-shadow: 0 4px 20px rgba(245,158,11,0.4);
         }
 
-        .cta-button:hover::before {
-            left: 100%;
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(245,158,11,0.55);
         }
 
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(255, 143, 0, 0.6);
+        .btn-ghost {
+            background: transparent;
+            color: var(--white);
+            border: 1px solid rgba(255,255,255,0.18);
         }
 
-        .cta-button:active {
-            transform: translateY(-1px);
+        .btn-ghost:hover {
+            background: rgba(255,255,255,0.07);
+            transform: translateY(-2px);
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .btn:active { transform: translateY(0) !important; }
+
+        /* Hero stats strip */
+        .hero-stats {
+            display: flex;
+            gap: 2.5rem;
+            margin-top: 3.5rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid rgba(255,255,255,0.07);
+            animation: fadeUp 0.9s var(--ease-out-expo) 0.4s both;
+            flex-wrap: wrap;
         }
 
-        /* ===== SERVICES SECTION ===== */
+        .stat-item { }
+
+        .stat-num {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--amber-300);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--ink-400);
+            margin-top: 0.25rem;
+        }
+
+        @keyframes fadeUp {
+            from { opacity:0; transform:translateY(24px); }
+            to   { opacity:1; transform:translateY(0); }
+        }
+
+        /* ===========================
+           SERVICES
+        =========================== */
         .services {
-            padding: 5rem 0;
-            background: white;
+            padding: 6rem 0;
+            position: relative;
         }
 
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 1.5rem;
         }
 
         .service-card {
-            background: white;
-            border: 2px solid var(--light-yellow);
-            border-radius: 15px;
-            padding: 2rem;
-            text-align: center;
-            transition: all var(--transition-speed) ease;
+            padding: 2.25rem;
+            border-radius: 20px;
+            background: var(--ink-900);
+            border: 1px solid rgba(255,255,255,0.06);
+            transition: transform var(--speed-med) var(--ease-out-expo),
+                        border-color var(--speed-med) ease,
+                        box-shadow var(--speed-med) ease;
             position: relative;
             overflow: hidden;
         }
 
-        .service-card::before {
-            content: '';
+        .service-card::after {
+            content:'';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: var(--primary-yellow);
-            transform: scaleX(0);
-            transition: transform var(--transition-speed) ease;
-        }
-
-        .service-card:hover::before {
-            transform: scaleX(1);
+            inset: 0;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(245,158,11,0.06) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity var(--speed-med) ease;
         }
 
         .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(255, 193, 7, 0.2);
-            border-color: var(--primary-yellow);
+            transform: translateY(-6px);
+            border-color: rgba(245,158,11,0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(245,158,11,0.1);
         }
 
-        .service-icon {
-            width: 80px;
-            height: 80px;
-            background: var(--light-yellow);
-            border-radius: 50%;
+        .service-card:hover::after { opacity: 1; }
+
+        .service-icon-wrap {
+            width: 56px; height: 56px;
+            background: rgba(245,158,11,0.12);
+            border: 1px solid rgba(245,158,11,0.2);
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1rem;
-            font-size: 2rem;
-            transition: all var(--transition-speed) ease;
+            font-size: 1.5rem;
+            margin-bottom: 1.25rem;
+            transition: background var(--speed-fast) ease,
+                        transform var(--speed-slow) ease;
         }
 
-        .service-card:hover .service-icon {
-            background: var(--primary-yellow);
-            transform: rotate(360deg);
-            transition: transform 0.6s ease, background var(--transition-speed) ease;
+        .service-card:hover .service-icon-wrap {
+            background: rgba(245,158,11,0.22);
+            transform: rotate(8deg) scale(1.05);
         }
 
         .service-card h3 {
-            color: var(--dark-yellow);
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--white);
             margin-bottom: 0.5rem;
-            font-size: 1.3rem;
         }
 
         .service-card p {
-            color: #666;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
+            color: var(--ink-400);
+            line-height: 1.65;
         }
 
-        /* ===== PAYMENT METHODS SECTION ===== */
+        /* ===========================
+           PAYMENTS
+        =========================== */
         .payments {
-            padding: 5rem 0;
-            background: var(--light-yellow);
+            padding: 6rem 0;
+            background: var(--ink-900);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .payments::before {
+            content:'';
+            position: absolute;
+            top: -200px; right: -200px;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(245,158,11,0.08) 0%, transparent 65%);
+            pointer-events: none;
         }
 
         .payment-methods {
             display: flex;
-            justify-content: center;
+            gap: 1.5rem;
             flex-wrap: wrap;
-            gap: 2rem;
-            margin-top: 2rem;
+            justify-content: center;
         }
 
         .payment-card {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            width: 300px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: all var(--transition-speed) ease;
-            border: 3px solid transparent;
+            width: 290px;
             flex-shrink: 0;
+            cursor: pointer;
+            border-radius: 20px;
+            background: var(--ink-800);
+            border: 1px solid rgba(255,255,255,0.07);
+            overflow: hidden;
+            transition: transform var(--speed-med) var(--ease-out-expo),
+                        border-color var(--speed-med) ease,
+                        box-shadow var(--speed-med) ease;
         }
 
         .payment-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            border-color: var(--primary-yellow);
+            border-color: var(--amber-500);
+            box-shadow: 0 16px 36px rgba(0,0,0,0.45), 0 0 0 1px rgba(245,158,11,0.2);
         }
 
-        .payment-logo {
-            width: 180px;
-            height: 100px;
-            margin: 0 auto 1rem;
+        .payment-card-header {
+            padding: 1.75rem 1.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .payment-logo-wrap {
+            width: 64px; height: 64px;
+            border-radius: 16px;
+            overflow: hidden;
+            background: var(--white);
             display: flex;
             align-items: center;
             justify-content: center;
-            background: white;
-            border-radius: 10px;
-            padding: 10px;
-            overflow: hidden;
+            flex-shrink: 0;
         }
 
-        .payment-logo img {
-            max-width: 100%;
-            max-height: 100%;
+        .payment-logo-wrap img {
+            max-width: 100%; max-height: 100%;
             object-fit: contain;
-            transition: transform var(--transition-speed) ease;
         }
 
-        .payment-card:hover .payment-logo img {
-            transform: scale(1.05);
-        }
-
-        .jazzcash-bg {
-            background: #FFF5F5;
-            border: 2px solid #FEE2E2;
-        }
-
-        .easypaisa-bg {
-            background: #F0FDF4;
-            border: 2px solid #DCFCE7;
-        }
-
-        .bank-bg {
-            background: #EFF6FF;
-            border: 2px solid #DBEAFE;
-        }
-
-        .payment-card h3 {
-            color: var(--text-dark);
-            margin-bottom: 0.5rem;
-            font-size: 1.2rem;
-        }
-
-        .payment-number {
-            font-family: monospace;
-            background: var(--light-yellow);
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            display: inline-block;
-            margin-top: 0.5rem;
-            font-weight: bold;
-            color: var(--dark-yellow);
+        .payment-card-meta h3 {
+            font-family: var(--font-display);
             font-size: 1.1rem;
-            word-break: break-all;
+            font-weight: 700;
+            color: var(--white);
         }
 
-        /* ===== PRODUCTS SECTION ===== */
+        .payment-card-meta p {
+            font-size: 0.8rem;
+            color: var(--ink-400);
+            margin-top: 0.2rem;
+        }
+
+        .payment-card-body {
+            padding: 0 1.75rem 1.75rem;
+        }
+
+
+
+        .payment-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--amber-500);
+            color: var(--ink-950);
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 0.875rem;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background var(--speed-fast) ease,
+                        transform var(--speed-fast) ease;
+        }
+
+        .payment-btn:hover {
+            background: var(--amber-300);
+            transform: translateY(-1px);
+        }
+
+        .payment-btn:active { transform: none; }
+
+        /* Notice */
+        .notice-box {
+            margin-top: 2.5rem;
+            padding: 1.25rem 1.5rem;
+            border-radius: 14px;
+            background: rgba(245,158,11,0.06);
+            border: 1px solid rgba(245,158,11,0.2);
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+        }
+
+        .notice-icon { font-size: 1.2rem; flex-shrink:0; margin-top:0.1rem; }
+
+        .notice-box h4 {
+            font-family: var(--font-display);
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--amber-300);
+            margin-bottom: 0.2rem;
+        }
+
+        .notice-box p {
+            font-size: 0.85rem;
+            color: var(--ink-400);
+            line-height: 1.55;
+        }
+
+        /* ===========================
+           PRODUCTS
+        =========================== */
         .products {
-            padding: 5rem 0;
-            background: white;
+            padding: 6rem 0;
         }
 
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.25rem;
         }
 
         .product-card {
-            background: white;
-            border-radius: 15px;
+            border-radius: 16px;
+            background: var(--ink-900);
+            border: 1px solid rgba(255,255,255,0.06);
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: all var(--transition-speed) ease;
-            border: 2px solid var(--light-yellow);
+            transition: transform var(--speed-med) var(--ease-out-expo),
+                        border-color var(--speed-med) ease;
         }
 
         .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(255, 193, 7, 0.2);
+            transform: translateY(-4px);
+            border-color: rgba(245,158,11,0.25);
         }
 
-        .product-image {
-            height: 200px;
-            background: var(--light-yellow);
+        .product-img-area {
+            height: 120px;
+            background: var(--ink-800);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 4rem;
+            font-size: 2.75rem;
             position: relative;
             overflow: hidden;
         }
 
-        .product-image::after {
-            content: 'View Details';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 193, 7, 0.9);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            opacity: 0;
-            transition: opacity var(--transition-speed) ease;
+        .product-img-area::after {
+            content:'';
+            position:absolute;
+            inset:0;
+            background: linear-gradient(to bottom, transparent 40%, rgba(13,11,7,0.3));
         }
 
-        .product-card:hover .product-image::after {
-            opacity: 1;
+        .product-body {
+            padding: 1.25rem;
         }
 
-        .product-info {
-            padding: 1.5rem;
-        }
-
-        .product-info h3 {
-            color: var(--text-dark);
-            margin-bottom: 0.5rem;
+        .product-body h3 {
+            font-family: var(--font-display);
+            font-size: 0.975rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 0.3rem;
         }
 
         .product-price {
-            color: var(--dark-yellow);
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--amber-300);
+            margin-bottom: 0.4rem;
         }
 
         .product-desc {
-            color: #666;
-            font-size: 0.9rem;
+            font-size: 0.82rem;
+            color: var(--ink-400);
+            line-height: 1.5;
         }
 
-        /* ===== CONTACT SECTION ===== */
+        /* ===========================
+           CONTACT
+        =========================== */
         .contact {
-            padding: 5rem 0;
-            background: var(--light-yellow);
+            padding: 6rem 0;
+            background: var(--ink-900);
         }
 
-        .contact-info {
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
         }
 
-        .contact-info h3 {
-            color: var(--dark-yellow);
-            margin-bottom: 1rem;
-            font-size: clamp(1.5rem, 4vw, 1.8rem);
+        .contact-lead h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+            font-weight: 800;
+            color: var(--white);
+            line-height: 1.1;
+            margin-bottom: 0.75rem;
         }
 
-        .contact-info > p {
-            margin-bottom: 2rem;
-            color: #666;
+        .contact-lead p {
+            color: var(--ink-400);
+            font-size: 0.95rem;
+            line-height: 1.65;
+            margin-bottom: 0;
         }
 
-        .contact-details-stack {
+        .contact-details {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
-            align-items: center;
+            gap: 0.85rem;
         }
 
-        .contact-detail {
+        .contact-item {
             display: flex;
             align-items: center;
-            padding: 1.2rem;
-            background: white;
-            border-radius: 10px;
-            transition: all var(--transition-speed) ease;
-            width: 100%;
-            max-width: 450px;
-            text-align: left;
+            gap: 1rem;
+            padding: 1.1rem 1.25rem;
+            border-radius: 14px;
+            background: var(--ink-800);
+            border: 1px solid rgba(255,255,255,0.06);
             text-decoration: none;
             color: inherit;
-            cursor: pointer;
-            border: 2px solid transparent;
+            transition: border-color var(--speed-fast) ease,
+                        transform var(--speed-fast) ease,
+                        background var(--speed-fast) ease;
             min-height: 56px;
         }
 
-        .contact-detail:hover {
-            transform: translateX(10px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            border-color: var(--primary-yellow);
+        .contact-item:hover {
+            border-color: rgba(245,158,11,0.3);
+            background: var(--ink-900);
+            transform: translateX(4px);
         }
 
-        .contact-detail:active {
-            transform: translateX(5px);
-        }
-
-        .contact-icon {
-            font-size: 1.5rem;
-            margin-right: 1rem;
+        .contact-item-icon {
+            width: 38px; height: 38px;
+            background: rgba(245,158,11,0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
             flex-shrink: 0;
         }
 
-        .contact-detail strong {
-            color: var(--dark-yellow);
+        .contact-item-text strong {
             display: block;
-            margin-bottom: 0.2rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--amber-300);
+            font-family: var(--font-display);
         }
 
-        .contact-detail .info-text {
-            color: #666;
-            font-size: 0.95rem;
-            word-break: break-word;
+        .contact-item-text span {
+            font-size: 0.875rem;
+            color: var(--ink-200);
         }
 
-        .contact-detail.whatsapp {
-            background: #25D366;
-            color: white;
+        .contact-item.whatsapp {
+            background: rgba(37,211,102,0.1);
+            border-color: rgba(37,211,102,0.25);
         }
 
-        .contact-detail.whatsapp:hover {
-            border-color: #128C7E;
-            background: #22c35e;
+        .contact-item.whatsapp:hover {
+            background: rgba(37,211,102,0.16);
+            border-color: rgba(37,211,102,0.5);
         }
 
-        .contact-detail.whatsapp strong {
-            color: white;
+        .contact-item.whatsapp .contact-item-icon {
+            background: rgba(37,211,102,0.18);
         }
 
-        .contact-detail.whatsapp .info-text {
-            color: rgba(255,255,255,0.9);
+        .contact-item.whatsapp .contact-item-text strong {
+            color: #34d870;
         }
 
-        /* ===== FOOTER ===== */
+        /* ===========================
+           FOOTER
+        =========================== */
         footer {
-            background: var(--text-dark);
-            color: white;
-            padding: 2rem 0;
-            text-align: center;
+            padding: 2.5rem 0;
+            border-top: 1px solid rgba(255,255,255,0.06);
         }
 
-        .footer-content {
-            margin-bottom: 1rem;
+        .footer-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1.25rem;
         }
 
         .footer-links {
             display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 1rem;
+            gap: 1.5rem;
             flex-wrap: wrap;
         }
 
         .footer-links a {
-            color: var(--primary-yellow);
+            font-size: 0.85rem;
+            color: var(--ink-400);
             text-decoration: none;
-            transition: color var(--transition-speed) ease;
-            padding: 0.25rem 0;
+            transition: color var(--speed-fast) ease;
         }
 
-        .footer-links a:hover {
-            color: white;
-        }
+        .footer-links a:hover { color: var(--amber-300); }
 
-        .social-links {
-            margin-bottom: 1rem;
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-        }
-
-        .social-links a {
-            font-size: 1.5rem;
-            text-decoration: none;
-            transition: transform var(--transition-speed) ease;
-            display: inline-block;
-        }
-
-        .social-links a:hover {
-            transform: scale(1.2);
-        }
-
-        .copyright {
-            color: #999;
-            font-size: 0.9rem;
-        }
-
-        .copyright p:last-child {
-            margin-top: 0.5rem;
+        .footer-copy {
             font-size: 0.8rem;
+            color: var(--ink-600);
         }
 
-        /* ===== NOTICE BOX ===== */
-        .notice-box {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin-top: 2rem;
-            border-left: 5px solid var(--primary-yellow);
+        .footer-socials {
+            display: flex;
+            gap: 0.6rem;
         }
 
-        .notice-box h4 {
-            color: var(--dark-yellow);
-            margin-bottom: 0.5rem;
+        .footer-socials a {
+            width: 34px; height: 34px;
+            border-radius: 8px;
+            background: var(--ink-800);
+            border: 1px solid rgba(255,255,255,0.07);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background var(--speed-fast) ease,
+                        border-color var(--speed-fast) ease;
         }
 
-        .notice-box p {
-            color: #666;
+        .footer-socials a:hover {
+            background: rgba(245,158,11,0.15);
+            border-color: rgba(245,158,11,0.35);
+        }
+
+        /* ===========================
+           MODAL (DISCOUNT)
+        =========================== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.75);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            animation: fadeBg 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-overlay.active { display: flex; }
+
+        @keyframes fadeBg {
+            from { opacity:0; } to { opacity:1; }
+        }
+
+        .modal-box {
+            background: var(--ink-900);
+            border: 1px solid rgba(245,158,11,0.3);
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(245,158,11,0.1);
+            animation: slideUpModal 0.35s var(--ease-out-expo);
+            position: relative;
+        }
+
+        @keyframes slideUpModal {
+            from { transform: translateY(40px); opacity:0; }
+            to   { transform: translateY(0);    opacity:1; }
+        }
+
+        .modal-emoji { font-size: 2.5rem; margin-bottom: 1rem; display:block; }
+
+        .modal-box h2 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 0.75rem;
+        }
+
+        .modal-box p {
             font-size: 0.95rem;
+            color: var(--ink-400);
+            line-height: 1.6;
+            margin-bottom: 1.75rem;
         }
 
-        /* ===== RESPONSIVE STYLES ===== */
+        .modal-box p strong { color: var(--amber-300); }
 
-        /* Tablet (768px and below) */
+        /* ===========================
+           PAYMENT MODAL
+        =========================== */
+        .payment-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2001;
+            backdrop-filter: blur(5px);
+        }
+
+        .payment-modal.active { display: flex; }
+
+        .payment-modal-box {
+            background: var(--ink-900);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            max-width: 440px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.6);
+            animation: slideUpModal 0.3s var(--ease-out-expo);
+        }
+
+        .pm-close {
+            position: absolute;
+            top: 1.25rem; right: 1.25rem;
+            background: var(--ink-800);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--ink-200);
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background var(--speed-fast) ease,
+                        transform var(--speed-fast) ease;
+        }
+
+        .pm-close:hover {
+            background: rgba(245,158,11,0.2);
+            transform: rotate(90deg);
+        }
+
+        .pm-header { text-align: center; margin-bottom: 1.5rem; }
+
+        .pm-logo {
+            width: 72px; height: 72px;
+            border-radius: 18px;
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            overflow: hidden;
+        }
+
+        .pm-logo img {
+            max-width: 90%; max-height: 90%;
+            object-fit: contain;
+        }
+
+        .pm-header h2 {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--white);
+        }
+
+        .pm-details {
+            background: var(--ink-800);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 14px;
+            padding: 1.25rem;
+            margin-bottom: 1.25rem;
+            text-align: center;
+        }
+
+        .pm-details-label {
+            font-size: 0.75rem;
+            color: var(--ink-400);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.25rem;
+        }
+
+        .pm-details-value {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--amber-300);
+            font-family: 'Courier New', monospace;
+        }
+
+        .pm-details-name {
+            font-size: 0.85rem;
+            color: var(--ink-400);
+            margin-top: 0.5rem;
+        }
+
+        /* QR code display */
+        .qr-wrap {
+            text-align: center;
+            margin: 1rem 0 1.25rem;
+        }
+
+        .qr-img {
+            width: 200px; height: 200px;
+            border-radius: 14px;
+            border: 2px solid rgba(255,202,40,0.25);
+            display: block;
+            margin: 0 auto 0.6rem;
+            background: var(--ink-800);
+        }
+
+        .qr-label {
+            font-size: 0.78rem;
+            color: var(--ink-400);
+        }
+
+        /* Payment card tagline */
+        .payment-card-tagline {
+            font-size: 0.82rem;
+            color: var(--ink-400);
+            margin-bottom: 0.85rem;
+        }
+
+        .pm-actions { display: flex; flex-direction: column; gap: 0.6rem; }
+
+        .pm-btn {
+            padding: 0.85rem;
+            border-radius: 12px;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: none;
+            transition: transform var(--speed-fast) ease, background var(--speed-fast) ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .pm-btn-primary {
+            background: var(--amber-500);
+            color: var(--ink-950);
+        }
+
+        .pm-btn-primary:hover {
+            background: var(--amber-300);
+            transform: translateY(-1px);
+        }
+
+        .pm-btn-secondary {
+            background: var(--ink-800);
+            color: var(--white);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .pm-btn-secondary:hover {
+            background: var(--ink-600);
+            transform: translateY(-1px);
+        }
+
+        .pm-btn-secondary.copied {
+            background: rgba(52,215,112,0.2);
+            border-color: rgba(52,215,112,0.4);
+            color: #34d870;
+        }
+
+        .pm-hint {
+            text-align: center;
+            font-size: 0.78rem;
+            color: var(--ink-600);
+            margin-top: 0.75rem;
+        }
+
+        /* ===========================
+           SCROLL REVEAL
+        =========================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity var(--speed-slow) var(--ease-out-expo),
+                        transform var(--speed-slow) var(--ease-out-expo);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===========================
+           RESPONSIVE
+        =========================== */
+        @media (max-width: 900px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
         @media (max-width: 768px) {
             .nav-menu {
                 display: none;
                 position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background: linear-gradient(135deg, var(--primary-yellow) 0%, var(--dark-yellow) 100%);
+                top: 100%; left: 0; width: 100%;
+                background: rgba(13,11,7,0.97);
+                backdrop-filter: blur(20px);
                 flex-direction: column;
                 padding: 1rem;
-                gap: 0.5rem;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                gap: 0.25rem;
+                border-top: 1px solid rgba(255,202,40,0.15);
             }
 
-            .nav-menu.active {
-                display: flex;
-            }
+            .nav-menu.active { display: flex; }
 
             .nav-link {
                 display: block;
                 text-align: center;
                 padding: 0.75rem 1rem;
-                border-radius: 8px;
-                width: 100%;
+                border-radius: 10px;
             }
 
-            .mobile-toggle {
-                display: block;
-            }
+            .mobile-toggle { display: flex; }
 
-            .hero {
-                margin-top: 62px;
-                padding: 3rem 0;
-            }
+            .hero { padding-top: 6.5rem; }
 
-            .services,
-            .payments,
-            .products,
-            .contact {
-                padding: 3rem 0;
-            }
+            .hero-stats { gap: 1.5rem; }
 
-            .services-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
+            .services-grid,
             .products-grid {
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                gap: 1.5rem;
+                grid-template-columns: 1fr;
             }
 
-            .section-title {
-                margin-bottom: 2rem;
-            }
+            .payment-methods { flex-direction: column; align-items: center; }
+
+            .payment-card { width: 100%; max-width: 340px; }
+
+            .footer-inner { flex-direction: column; align-items: flex-start; }
         }
 
-        /* Small phones (480px and below) */
         @media (max-width: 480px) {
-            .container {
-                padding: 0 15px;
-            }
+            .container { padding: 0 16px; }
 
-            .hero {
-                margin-top: 60px;
-                padding: 2.5rem 0;
-            }
+            .hero h1 { font-size: 2.1rem; }
 
-            .services,
-            .payments,
-            .products,
-            .contact {
-                padding: 2.5rem 0;
-            }
+            .hero-actions { flex-direction: column; }
 
-            .service-card,
-            .product-card,
-            .payment-card {
-                padding: 1.5rem;
-            }
+            .btn { width: 100%; justify-content: center; }
 
             .products-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .payment-methods {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .payment-card {
-                width: 100%;
-                max-width: 320px;
-            }
-
-            .payment-logo {
-                width: 150px;
-                height: 80px;
-            }
-
-            .contact-detail {
-                padding: 1rem;
-            }
-
-            .contact-detail:hover {
-                transform: translateX(5px);
-            }
-
-            .footer-links {
-                gap: 1rem;
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
-        /* Extra small devices (360px and below) */
         @media (max-width: 360px) {
-            .hero {
-                padding: 2rem 0;
-            }
-
-            .cta-button {
-                padding: 0.875rem 2rem;
-                width: 90%;
-                max-width: 280px;
-            }
+            .products-grid { grid-template-columns: 1fr; }
         }
 
-        /* Landscape mode on phones */
-        @media (max-height: 500px) and (orientation: landscape) {
-            .hero {
-                padding: 2rem 0;
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
             }
-
-            .hero h1 {
-                font-size: 1.5rem;
-            }
-
-            .hero p {
-                font-size: 0.9rem;
-                margin-bottom: 1rem;
-            }
-        }
-
-        /* Hover only on devices that support it */
-        @media (hover: hover) {
-            .contact-detail:hover {
-                transform: translateX(10px);
-            }
-        }
-
-        @media (hover: none) {
-            .contact-detail:active {
-                transform: translateX(5px);
-                background: var(--light-yellow);
-            }
-
-            .contact-detail.whatsapp:active {
-                background: #1eae57;
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
         }
     </style>
 </head>
-
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container nav-container">
-            <a href="#" class="logo">
-                <img src="logo.jpeg" alt="Moin Photo Studio Logo" class="logo-img" style="width: 64px; height: 64px; border-radius: 50%; margin-right: 0.5rem; object-fit: cover; border: 2px solid white;">
-                <span>Moin Photo Studio</span>
-            </a>
 
-            <ul class="nav-menu" id="navMenu">
-                <li><a href="#home" class="nav-link">Home</a></li>
-                <li><a href="#services" class="nav-link">Services</a></li>
-                <li><a href="#payments" class="nav-link">Payments</a></li>
-                <li><a href="#products" class="nav-link">Accessories</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
-            </ul>
-
-            <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation menu">☰</button>
-        </div>
-        <div class="ticker-wrap">
-            <div class="ticker">
-                🎉 Special Offer: Contact us and book any order through our website and get  10% discount! 🚀
-            </div>
-        </div>
-    </nav>
-
-    <!-- Discount Modal -->
-    <div id="discountModal" class="modal-overlay">
-        <div class="modal-container">
-            <h2>🎁 Special Discount!</h2>
-            <p>If you contact us and book any order through our website, you will get a <strong>10% discount</strong> on our services!</p>
-            <button class="modal-close" onclick="closeModal()">Great, Thanks!</button>
+<!-- ===== NAVIGATION ===== -->
+<nav class="navbar" id="navbar">
+    <div class="ticker-bar">
+        <div class="ticker-track">
+            <span class="ticker-item">🎉 Special Offer — Book any order through our website and get 10% off!</span>
+            <span class="ticker-item">📷 Photo Copying · Printing · Graphics Design · Mobile Accessories</span>
+            <span class="ticker-item">🕐 Open Daily: 7:00 AM – 7:00 PM &nbsp; · &nbsp; Mian Channu, Pakistan</span>
+            <span class="ticker-item">🎉 Special Offer — Book any order through our website and get 10% off!</span>
+            <span class="ticker-item">📷 Photo Copying · Printing · Graphics Design · Mobile Accessories</span>
+            <span class="ticker-item">🕐 Open Daily: 7:00 AM – 7:00 PM &nbsp; · &nbsp; Mian Channu, Pakistan</span>
         </div>
     </div>
+    <div class="container nav-inner">
+        <a href="#" class="logo">
+            <img src="logo.jpeg" alt="Moin Photo Studio" class="logo-img">
+            <div>
+                <span class="logo-text">Moin Photo Studio</span>
+                <span class="logo-sub">Mian Channu</span>
+            </div>
+        </a>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="container hero-content">
-            <h1>Your One-Stop Digital Solution</h1>
-            <p>Professional photo copying, printing, graphics design, and mobile accessories. Fast, reliable, and affordable services with easy digital payments.</p>
-            <a href="#services" class="cta-button">Explore Our Services</a>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="#home" class="nav-link">Home</a></li>
+            <li><a href="#services" class="nav-link">Services</a></li>
+            <li><a href="#payments" class="nav-link">Payments</a></li>
+            <li><a href="#products" class="nav-link">Accessories</a></li>
+            <li><a href="#contact" class="nav-link nav-cta">Contact</a></li>
+        </ul>
+
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">☰</button>
+    </div>
+</nav>
+
+<!-- ===== DISCOUNT MODAL ===== -->
+<div id="discountModal" class="modal-overlay">
+    <div class="modal-box">
+        <span class="modal-emoji">🎁</span>
+        <h2>Exclusive Discount</h2>
+        <p>Contact us and book any order through our website — get a <strong>10% discount</strong> on all services automatically!</p>
+        <button class="btn btn-primary" onclick="closeModal()" style="width:100%; justify-content:center;">
+            Claim My Discount
+        </button>
+    </div>
+</div>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="home">
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="hero-badge-dot"></span>
+                Now Open · Mian Channu
+            </div>
+            <h1>Your <em>Digital</em><br>Studio Partner</h1>
+            <p class="hero-desc">Professional photo copying, printing, graphics design, and mobile accessories — all under one roof. Fast, reliable, and affordable in Mian Channu.</p>
+            <div class="hero-actions">
+                <a href="#services" class="btn btn-primary">Explore Services</a>
+                <a href="#contact" class="btn btn-ghost">Contact Us</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-num">7AM</div>
+                    <div class="stat-label">Opens Every Day</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num">10%</div>
+                    <div class="stat-label">Online Booking Discount</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num">2+</div>
+                    <div class="stat-label">Payment Methods</div>
+                </div>
+            </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Services Section -->
-    <section class="services" id="services">
-        <div class="container">
+<!-- ===== SERVICES ===== -->
+<section class="services" id="services">
+    <div class="container">
+        <div class="section-header reveal">
+            <span class="eyebrow">What We Do</span>
             <h2 class="section-title">Our Services</h2>
-            
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">📄</div>
-                    <h3>Photo Copying</h3>
-                    <p>High-quality black & white and color photocopying services. Fast turnaround for single pages or bulk orders at competitive rates.</p>
-                </div>
+            <p class="section-sub">Everything you need for printing, design, and digital accessories — fast and at competitive prices.</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card reveal">
+                <div class="service-icon-wrap">📄</div>
+                <h3>Photo Copying</h3>
+                <p>High-quality black &amp; white and colour photocopying. Fast turnaround for single pages or bulk orders at competitive rates.</p>
+            </div>
+            <div class="service-card reveal">
+                <div class="service-icon-wrap">🖨️</div>
+                <h3>Photo Printing</h3>
+                <p>Professional photo printing on premium paper. All sizes from passport photos to large posters with vivid, lasting colours.</p>
+            </div>
+            <div class="service-card reveal">
+                <div class="service-icon-wrap">🎨</div>
+                <h3>Graphics Design</h3>
+                <p>Creative design for logos, banners, business cards, wedding cards, and marketing materials — by skilled designers.</p>
+            </div>
+        </div>
+    </div>
+</section>
 
-                <div class="service-card">
-                    <div class="service-icon">🖨️</div>
-                    <h3>Photo Printing</h3>
-                    <p>Professional photo printing on premium paper. Available in all sizes from passport photos to large posters with vibrant colors.</p>
-                </div>
+<!-- ===== PAYMENTS ===== -->
+<section class="payments" id="payments">
+    <div class="container">
+        <div class="section-header reveal">
+            <span class="eyebrow">Pay Digitally</span>
+            <h2 class="section-title">Digital Payments</h2>
+            <p class="section-sub">Send money instantly through Pakistan's most trusted platforms — quick, safe, and hassle-free.</p>
+        </div>
+        <div class="payment-methods">
 
-                <div class="service-card">
-                    <div class="service-icon">🎨</div>
-                    <h3>Graphics Design</h3>
-                    <p>Creative design services for logos, banners, business cards, wedding cards, and marketing materials by skilled designers.</p>
+            <!-- JazzCash -->
+            <div class="payment-card reveal" onclick="openPaymentModal('jazzcash')">
+                <div class="payment-card-header">
+                    <div class="payment-logo-wrap">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/JazzCash_logo_%282025%29.png"
+                             alt="JazzCash" loading="lazy">
+                    </div>
+                    <div class="payment-card-meta">
+                        <h3>JazzCash</h3>
+                        <p>Instant money transfer</p>
+                    </div>
+                </div>
+                <div class="payment-card-body">
+                    <p class="payment-card-tagline">Scan QR or open the app to pay instantly</p>
+                    <button class="payment-btn" onclick="event.stopPropagation(); openPaymentModal('jazzcash')">
+                        Pay via JazzCash →
+                    </button>
+                </div>
+            </div>
+
+            <!-- EasyPaisa -->
+            <div class="payment-card reveal" onclick="openPaymentModal('easypaisa')">
+                <div class="payment-card-header">
+                    <div class="payment-logo-wrap">
+                        <img src="https://img.freepik.com/premium-vector/easypaisa-logo_977193-195.jpg"
+                             alt="EasyPaisa" loading="lazy">
+                    </div>
+                    <div class="payment-card-meta">
+                        <h3>EasyPaisa</h3>
+                        <p>Quick &amp; secure transfers</p>
+                    </div>
+                </div>
+                <div class="payment-card-body">
+                    <p class="payment-card-tagline">Scan QR or open the app to pay instantly</p>
+                    <button class="payment-btn" onclick="event.stopPropagation(); openPaymentModal('easypaisa')">
+                        Pay via EasyPaisa →
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="notice-box reveal">
+            <span class="notice-icon">⚠️</span>
+            <div>
+                <h4>Important Notice</h4>
+                <p>Always confirm account details before sending money. Share your transaction ID after payment for quick verification. For large amounts, please visit our shop in person.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== PAYMENT MODALS ===== -->
+<!-- JazzCash Modal -->
+<div id="jazzcash-modal" class="payment-modal">
+    <div class="payment-modal-box">
+        <button class="pm-close" onclick="closePaymentModal('jazzcash')">×</button>
+        <div class="pm-header">
+            <div class="pm-logo">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/JazzCash_logo_%282025%29.png" alt="JazzCash">
+            </div>
+            <h2>JazzCash Payment</h2>
+        </div>
+
+        <div class="pm-details">
+            <div class="pm-details-name" style="margin:0;">Account: <strong style="color:var(--amber-300);">Moin Photo Studio</strong></div>
+        </div>
+
+        <!-- QR Code — encodes jazzcash:// deep link. Replace src with your real QR image when ready -->
+        <div class="qr-wrap">
+            <img
+                src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&color=FFCA28&bgcolor=1A1710&data=jazzcash%3A%2F%2Fsend%3Fphone%3D923032241758%26amount%3D"
+                alt="Scan to open JazzCash app"
+                class="qr-img"
+                loading="lazy"
+            >
+            <p class="qr-label">📷 Scan with camera — opens JazzCash directly</p>
+        </div>
+
+        <div class="pm-actions">
+            <button class="pm-btn pm-btn-primary" onclick="openPaymentApp('jazzcash')">
+                📱 Open JazzCash App
+            </button>
+            <button class="pm-btn pm-btn-secondary" id="jazzcash-copy-btn" onclick="copyToClipboard('923032241758', 'jazzcash')">
+                📋 Copy Number
+            </button>
+        </div>
+        <p class="pm-hint">Scan the QR or tap "Open JazzCash App" to go straight to the payment screen.</p>
+    </div>
+</div>
+
+<!-- EasyPaisa Modal -->
+<div id="easypaisa-modal" class="payment-modal">
+    <div class="payment-modal-box">
+        <button class="pm-close" onclick="closePaymentModal('easypaisa')">×</button>
+        <div class="pm-header">
+            <div class="pm-logo">
+                <img src="https://img.freepik.com/premium-vector/easypaisa-logo_977193-195.jpg" alt="EasyPaisa">
+            </div>
+            <h2>EasyPaisa Payment</h2>
+        </div>
+
+        <div class="pm-details">
+            <div class="pm-details-name" style="margin:0;">Account: <strong style="color:var(--amber-300);">Moin Photo Studio</strong></div>
+        </div>
+
+        <!-- QR Code — encodes easypaisa:// deep link. Replace src with your real QR image when ready -->
+        <div class="qr-wrap">
+            <img
+                src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&color=FFCA28&bgcolor=1A1710&data=easypaisa%3A%2F%2Fsend%3Fphone%3D923032241758%26amount%3D"
+                alt="Scan to open EasyPaisa app"
+                class="qr-img"
+                loading="lazy"
+            >
+            <p class="qr-label">📷 Scan with camera — opens EasyPaisa directly</p>
+        </div>
+
+        <div class="pm-actions">
+            <button class="pm-btn pm-btn-primary" onclick="openPaymentApp('easypaisa')">
+                📱 Open EasyPaisa App
+            </button>
+            <button class="pm-btn pm-btn-secondary" id="easypaisa-copy-btn" onclick="copyToClipboard('923032241758', 'easypaisa')">
+                📋 Copy Number
+            </button>
+        </div>
+        <p class="pm-hint">Scan the QR or tap "Open EasyPaisa App" to go straight to the payment screen.</p>
+    </div>
+</div>
+
+<!-- ===== PRODUCTS ===== -->
+<section class="products" id="products">
+    <div class="container">
+        <div class="section-header reveal">
+            <span class="eyebrow">Mobile Accessories</span>
+            <h2 class="section-title">Quality Accessories</h2>
+            <p class="section-sub">Trusted brands, affordable prices, and expert advice — everything your phone needs.</p>
+        </div>
+        <div class="products-grid">
+            <div class="product-card reveal">
+                <div class="product-img-area">📱</div>
+                <div class="product-body">
+                    <h3>Phone Cases</h3>
+                    <div class="product-price">From Rs. 299</div>
+                    <p class="product-desc">Protective covers for iPhone, Samsung, Oppo, Vivo, and more.</p>
+                </div>
+            </div>
+            <div class="product-card reveal">
+                <div class="product-img-area">🛡️</div>
+                <div class="product-body">
+                    <h3>Screen Protectors</h3>
+                    <div class="product-price">From Rs. 149</div>
+                    <p class="product-desc">Tempered glass and matte protectors with free installation.</p>
+                </div>
+            </div>
+            <div class="product-card reveal">
+                <div class="product-img-area">🔌</div>
+                <div class="product-body">
+                    <h3>Chargers &amp; Cables</h3>
+                    <div class="product-price">From Rs. 199</div>
+                    <p class="product-desc">Fast chargers, data cables, and wireless charging pads.</p>
+                </div>
+            </div>
+            <div class="product-card reveal">
+                <div class="product-img-area">🎧</div>
+                <div class="product-body">
+                    <h3>Headphones</h3>
+                    <div class="product-price">From Rs. 349</div>
+                    <p class="product-desc">Wired and wireless options with warranty — Audionic, Ronin, and more.</p>
+                </div>
+            </div>
+            <div class="product-card reveal">
+                <div class="product-img-area">🔋</div>
+                <div class="product-body">
+                    <h3>Power Banks</h3>
+                    <div class="product-price">From Rs. 899</div>
+                    <p class="product-desc">10,000–30,000mAh capacity with fast-charge support.</p>
+                </div>
+            </div>
+            <div class="product-card reveal">
+                <div class="product-img-area">🚗</div>
+                <div class="product-body">
+                    <h3>Mobile Holders</h3>
+                    <div class="product-price">From Rs. 249</div>
+                    <p class="product-desc">Car mounts, desk stands, and selfie sticks.</p>
+                </div>
+            </div>
+            <div class="product-card reveal">
+                <div class="product-img-area">🔊</div>
+                <div class="product-body">
+                    <h3>Speakers</h3>
+                    <div class="product-price">From Rs. 599</div>
+                    <p class="product-desc">Portable Bluetooth and wireless audio systems.</p>
+                </div>
+            </div>
+            <div class="product-card reveal">
+                <div class="product-img-area">💾</div>
+                <div class="product-body">
+                    <h3>Storage Devices</h3>
+                    <div class="product-price">From Rs. 499</div>
+                    <p class="product-desc">USB drives, memory cards, and external hard drives.</p>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Payment Methods Section -->
-    <section class="payments" id="payments">
-        <div class="container">
-            <h2 class="section-title">Digital Payment Methods</h2>
-            <p style="text-align: center; margin-bottom: 2rem; color: #666;">Send money easily through these trusted platforms</p>
-            
-            <div class="payment-methods">
-                <!-- JazzCash -->
-                <a href="#jazzcash-payment" class="payment-card" style="text-decoration: none; color: inherit;">
-                    <div class="payment-logo jazzcash-bg">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/JazzCash_logo_%282025%29.png" 
-                             alt="JazzCash Logo" 
-                             title="JazzCash"
-                             loading="lazy">
+<!-- ===== CONTACT ===== -->
+<section class="contact" id="contact">
+    <div class="container">
+        <div class="contact-grid">
+            <div class="contact-lead reveal">
+                <span class="eyebrow">Get in Touch</span>
+                <h2>Visit Us or<br>Reach Out Anytime</h2>
+                <p>We're open every day from 7 AM to 7 PM. Stop by our shop in Mian Channu, give us a call, or drop a WhatsApp message — we're happy to help.</p>
+            </div>
+            <div class="contact-details reveal">
+                <a href="https://maps.app.goo.gl/LLWF6jx1ssmJMnFTA"
+                   target="_blank" rel="noopener noreferrer"
+                   class="contact-item" aria-label="Open in Google Maps">
+                    <div class="contact-item-icon">📍</div>
+                    <div class="contact-item-text">
+                        <strong>Address</strong>
+                        <span>Thana Chowk, Pull Bazar, GT Road, Mian Channu</span>
                     </div>
-                    <h3>JazzCash</h3>
-                    <p>Send money instantly</p>
-                    <div class="payment-number">03XX-XXXXXXX</div>
-                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">Account Title: Moin Photo Studio</p>
                 </a>
-
-                <!-- EasyPaisa -->
-                <div class="payment-card">
-                    <div class="payment-logo easypaisa-bg">
-                        <img src="https://img.freepik.com/premium-vector/easypaisa-logo_977193-195.jpg" 
-                             alt="EasyPaisa Logo" 
-                             title="EasyPaisa"
-                             loading="lazy">
+                <a href="tel:+923032241758" class="contact-item" aria-label="Call us">
+                    <div class="contact-item-icon">📞</div>
+                    <div class="contact-item-text">
+                        <strong>Phone</strong>
+                        <span>+92 303-2241758 — Tap to call</span>
                     </div>
-                    <h3>EasyPaisa</h3>
-                    <p>Quick and secure transfers</p>
-                    <div class="payment-number">03XX-XXXXXXX</div>
-                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">Account Title: Moin Photo Studio</p>
-                </div>
-
-                <!-- NAyapay -->
-                <div class="payment-card">
-                    <div class="payment-logo easypaisa-bg">
-                        <img src="moin_photo_studio_logo.jpg" 
-                             alt="NayaPay Logo" 
-                             title="NayaPay"
-                             loading="lazy">
+                </a>
+                <a href="mailto:moindeen848@mail.com" class="contact-item" aria-label="Email us">
+                    <div class="contact-item-icon">✉️</div>
+                    <div class="contact-item-text">
+                        <strong>Email</strong>
+                        <span>moindeen848@mail.com</span>
                     </div>
-                    <h3>NayaPay</h3>
-                    <p>Quick and secure transfers</p>
-                    <div class="payment-number">03XX-XXXXXXX</div>
-                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">Account Title: Moin Photo Studio</p>
+                </a>
+                <div class="contact-item" style="cursor:default;">
+                    <div class="contact-item-icon">🕐</div>
+                    <div class="contact-item-text">
+                        <strong>Business Hours</strong>
+                        <span>Monday – Sunday: 7:00 AM – 7:00 PM</span>
+                    </div>
                 </div>
-            </div>
-
-            <div class="notice-box">
-                <h4>⚠️ Important Notice</h4>
-                <p>Please always confirm the account details before sending money. Share your transaction ID after payment for quick verification. For large amounts, please visit our shop in person.</p>
+                <a href="https://wa.me/923032241758"
+                   target="_blank" rel="noopener noreferrer"
+                   class="contact-item whatsapp" aria-label="WhatsApp us">
+                    <div class="contact-item-icon">💬</div>
+                    <div class="contact-item-text">
+                        <strong>WhatsApp</strong>
+                        <span>+92 303-2241758 — Tap to chat</span>
+                    </div>
+                </a>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- JazzCash QR Section -->
-    <section id="jazzcash-payment" style="padding: 5rem 0; background: #fff; display: none;">
-        <div class="container" style="text-align: center;">
-            <h2 class="section-title">JazzCash Payment</h2>
-            <div style="max-width: 400px; margin: 0 auto; padding: 2rem; border: 2px dashed var(--primary-yellow); border-radius: 20px;">
-                <p style="margin-bottom: 1.5rem;">Scan the QR code below to pay via JazzCash</p>
-                <div style="width: 250px; height: 250px; background: #f0f0f0; margin: 0 auto; display: flex; align-items: center; justify-content: center; border-radius: 10px;">
-                    <p style="color: #999;">[PLACEHOLDER FOR QR CODE]</p>
-                </div>
-                <p style="margin-top: 1.5rem; font-weight: bold; color: var(--dark-yellow);">Moin Photo Studio</p>
-                <p>03XX-XXXXXXX</p>
-                <button onclick="document.getElementById('jazzcash-payment').style.display='none'" style="margin-top: 2rem; background: var(--dark-yellow); color: white; border: none; padding: 0.5rem 1.5rem; border-radius: 20px; cursor: pointer;">Close Payment View</button>
+<!-- ===== FOOTER ===== -->
+<footer>
+    <div class="container">
+        <div class="footer-inner">
+            <nav class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#services">Services</a>
+                <a href="#payments">Payments</a>
+                <a href="#products">Accessories</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <div class="footer-socials">
+                <a href="#" aria-label="Facebook" title="Facebook">📘</a>
+                <a href="#" aria-label="Instagram" title="Instagram">📸</a>
+                <a href="https://wa.me/923032241758" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">💬</a>
             </div>
+            <p class="footer-copy">© 2025 Moin Photo Studio. All rights reserved.</p>
         </div>
-    </section>
+    </div>
+</footer>
 
-    <!-- Products Section -->
-    <section class="products" id="products">
-        <div class="container">
-            <h2 class="section-title">Mobile Accessories</h2>
-            <p style="text-align: center; margin-bottom: 2rem; color: #666;">Quality accessories at affordable prices</p>
-            
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-image">📱</div>
-                    <div class="product-info">
-                        <h3>Phone Cases</h3>
-                        <div class="product-price">Starting from Rs. 299</div>
-                        <p class="product-desc">Protective covers for all major brands including iPhone, Samsung, Oppo, Vivo, and more.</p>
-                    </div>
-                </div>
+<script>
+    /* ========== NAVBAR ========== */
+    const navbar = document.getElementById('navbar');
+    const mobileToggle = document.getElementById('mobileToggle');
+    const navMenu = document.getElementById('navMenu');
 
-                <div class="product-card">
-                    <div class="product-image">🛡️</div>
-                    <div class="product-info">
-                        <h3>Screen Protectors</h3>
-                        <div class="product-price">Starting from Rs. 149</div>
-                        <p class="product-desc">Tempered glass and matte screen protectors with free installation service.</p>
-                    </div>
-                </div>
+    window.addEventListener('scroll', () => {
+        navbar.classList.toggle('scrolled', window.scrollY > 30);
+    }, { passive: true });
 
-                <div class="product-card">
-                    <div class="product-image">🔌</div>
-                    <div class="product-info">
-                        <h3>Chargers & Cables</h3>
-                        <div class="product-price">Starting from Rs. 199</div>
-                        <p class="product-desc">Fast chargers, data cables, and wireless charging pads for all devices.</p>
-                    </div>
-                </div>
+    mobileToggle.addEventListener('click', () => {
+        const open = navMenu.classList.toggle('active');
+        mobileToggle.textContent = open ? '✕' : '☰';
+    });
 
-                <div class="product-card">
-                    <div class="product-image">🎧</div>
-                    <div class="product-info">
-                        <h3>Headphones & Earphones</h3>
-                        <div class="product-price">Starting from Rs. 349</div>
-                        <p class="product-desc">Wired and wireless options with warranty. Brands include Audionic, Ronin, and more.</p>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-image">🔋</div>
-                    <div class="product-info">
-                        <h3>Power Banks</h3>
-                        <div class="product-price">Starting from Rs. 899</div>
-                        <p class="product-desc">Portable charging solutions from 10,000mAh to 30,000mAh capacity with fast charging support.</p>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-image">🚗</div>
-                    <div class="product-info">
-                        <h3>Mobile Holders</h3>
-                        <div class="product-price">Starting from Rs. 249</div>
-                        <p class="product-desc">Car mounts, desk stands, and selfie sticks for convenient usage.</p>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-image">🔊</div>
-                    <div class="product-info">
-                        <h3>Speakers</h3>
-                        <div class="product-price">Starting from Rs. 599</div>
-                        <p class="product-desc">Portable Bluetooth speakers, mini speakers, and wireless audio systems with great sound quality.</p>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-image">💾</div>
-                    <div class="product-info">
-                        <h3>Storage Devices</h3>
-                        <div class="product-price">Starting from Rs. 499</div>
-                        <p class="product-desc">Portable USB, memory cards, and external hard drives for all your storage needs.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="contact" id="contact">
-        <div class="container">
-            <h2 class="section-title">Contact Us</h2>
-            
-            <div class="contact-info">
-                <h3>Get in Touch</h3>
-                <p>Visit us or contact us directly. We're here to help!</p>
-                
-                <div class="contact-details-stack">
-                    <!-- Address - Opens Google Maps -->
-                    <a href="https://maps.app.goo.gl/LLWF6jx1ssmJMnFTA" 
-                       target="_blank" 
-                       rel="noopener noreferrer"
-                       class="contact-detail"
-                       aria-label="Open location in Google Maps">
-                        <span class="contact-icon">📍</span>
-                        <div>
-                            <strong>Address</strong>
-                            <span class="info-text">Thana Chowk, Pull Bazar, GT Road, Mian Channu, Pakistan</span>
-                        </div>
-                    </a>
-
-                    <!-- Phone - Opens dial pad -->
-                    <a href="tel:+923032241758" 
-                       class="contact-detail"
-                       aria-label="Call phone number">
-                        <span class="contact-icon">📞</span>
-                        <div>
-                            <strong>Phone</strong>
-                            <span class="info-text">+92 303-2241758 (Tap to call)</span>
-                        </div>
-                    </a>
-
-                    <!-- Email - Opens email client -->
-                    <a href="mailto:moindeen848@mail.com" 
-                       class="contact-detail"
-                       aria-label="Send email">
-                        <span class="contact-icon">✉️</span>
-                        <div>
-                            <strong>Email</strong>
-                            <span class="info-text">moindeen848@mail.com (Tap to email)</span>
-                        </div>
-                    </a>
-
-                    <!-- Business Hours -->
-                    <div class="contact-detail" style="cursor: default;">
-                        <span class="contact-icon">🕐</span>
-                        <div>
-                            <strong>Business Hours</strong>
-                            <span class="info-text">Mon - Sun: 7:00 AM - 7:00 PM</span>
-                        </div>
-                    </div>
-
-                    <!-- WhatsApp - Opens WhatsApp chat -->
-                    <a href="https://wa.me/923032241758" 
-                       target="_blank" 
-                       rel="noopener noreferrer"
-                       class="contact-detail whatsapp"
-                       aria-label="Chat on WhatsApp">
-                        <span class="contact-icon">💬</span>
-                        <div>
-                            <strong>WhatsApp</strong>
-                            <span class="info-text">+92 303-2241758 (Tap to chat)</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-links">
-                    <a href="#home">Home</a>
-                    <a href="#services">Services</a>
-                    <a href="#payments">Payments</a>
-                    <a href="#products">Products</a>
-                    <a href="#contact">Contact</a>
-                </div>
-                
-                <div class="social-links">
-                    <a href="#" aria-label="Facebook" title="Facebook">📘</a>
-                    <a href="#" aria-label="Instagram" title="Instagram">📸</a>
-                    <a href="https://wa.me/923032241758" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">💬</a>
-                </div>
-            </div>
-            
-            <div class="copyright">
-                <p>&copy; 2025 Moin Photo Studio. All rights reserved.</p>
-                <p>Designed with 💛 for our valued customers</p>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Mobile menu toggle
-        const mobileToggle = document.getElementById('mobileToggle');
-        const navMenu = document.getElementById('navMenu');
-
-        function toggleMobileMenu() {
-            navMenu.classList.toggle('active');
-            mobileToggle.textContent = navMenu.classList.contains('active') ? '✕' : '☰';
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.navbar')) {
+            navMenu.classList.remove('active');
+            mobileToggle.textContent = '☰';
         }
+    });
 
-        mobileToggle.addEventListener('click', toggleMobileMenu);
-
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('.navbar')) {
-                navMenu.classList.remove('active');
-                mobileToggle.textContent = '☰';
-            }
-        });
-
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                const href = this.getAttribute('href');
-                if (href === '#') return;
-                
-                e.preventDefault();
-                const target = document.querySelector(href);
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                    
-                    // Close mobile menu after click
-                    if (window.innerWidth <= 768) {
-                        navMenu.classList.remove('active');
-                        mobileToggle.textContent = '☰';
-                    }
-                }
-            });
-        });
-
-        // Navbar shadow on scroll
-        window.addEventListener('scroll', () => {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 50) {
-                navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.2)';
-            } else {
-                navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
-            }
-        });
-
-        // Intersection Observer for fade-in animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.service-card, .product-card, .payment-card').forEach((el) => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(20px)';
-            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(el);
-        });
-
-        // Add touch-friendly active states
-        document.querySelectorAll('.contact-detail').forEach(el => {
-            el.addEventListener('touchstart', function() {
-                this.style.transform = 'translateX(5px) scale(0.98)';
-            }, { passive: true });
-            
-            el.addEventListener('touchend', function() {
-                setTimeout(() => {
-                    this.style.transform = '';
-                }, 150);
-            }, { passive: true });
-        });
-
-        // Discount Modal Logic
-        const modal = document.getElementById('discountModal');
-        
-        window.onload = function() {
-            setTimeout(() => {
-                modal.style.display = 'flex';
-            }, 1000);
-        };
-
-        function closeModal() {
-            modal.style.display = 'none';
-        }
-
-        // JazzCash Payment Section Toggle
-        document.querySelector('a[href="#jazzcash-payment"]').addEventListener('click', function(e) {
+    /* Smooth scroll + close mobile menu */
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (href === '#') return;
             e.preventDefault();
-            const paymentSection = document.getElementById('jazzcash-payment');
-            paymentSection.style.display = 'block';
-            paymentSection.scrollIntoView({ behavior: 'smooth' });
-        });
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                closeModal();
+            const target = document.querySelector(href);
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if (window.innerWidth <= 768) {
+                    navMenu.classList.remove('active');
+                    mobileToggle.textContent = '☰';
+                }
             }
-        };
-    </script>
+        });
+    });
+
+    /* ========== DISCOUNT MODAL ========== */
+    function closeModal() {
+        document.getElementById('discountModal').classList.remove('active');
+        localStorage.setItem('discountModalClosed', 'true');
+    }
+
+    window.addEventListener('load', () => {
+        if (!localStorage.getItem('discountModalClosed')) {
+            setTimeout(() => {
+                document.getElementById('discountModal').classList.add('active');
+            }, 800);
+        }
+    });
+
+    document.getElementById('discountModal').addEventListener('click', function(e) {
+        if (e.target === this) closeModal();
+    });
+
+    /* ========== PAYMENT MODAL ========== */
+    function openPaymentModal(method) {
+        const modal = document.getElementById(method + '-modal');
+        if (modal) {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    function closePaymentModal(method) {
+        const modal = document.getElementById(method + '-modal');
+        if (modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
+
+    document.querySelectorAll('.payment-modal').forEach(modal => {
+        modal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.payment-modal.active, .modal-overlay.active').forEach(modal => {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        }
+    });
+
+    /* ========== CLIPBOARD ========== */
+    function copyToClipboard(text, method) {
+        const btn = document.getElementById(method + '-copy-btn');
+        navigator.clipboard.writeText(text).then(() => {
+            const orig = btn.innerHTML;
+            btn.innerHTML = '✓ Copied!';
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.innerHTML = orig;
+                btn.classList.remove('copied');
+            }, 2200);
+        }).catch(() => {
+            alert('Copy failed. Please copy manually: ' + text);
+        });
+    }
+
+    /* ========== DEEP LINK ========== */
+    function openPaymentApp(appName) {
+        const phoneNumber = '923032241758';
+        let deepLink = '';
+        let fallback = '';
+        if (appName === 'jazzcash') {
+            deepLink  = `jazzcash://send?phone=${phoneNumber}&amount=`;
+            fallback  = 'https://play.google.com/store/apps/details?id=com.techlogix.mobilinkcustomer';
+        } else if (appName === 'easypaisa') {
+            deepLink  = `easypaisa://send?phone=${phoneNumber}&amount=`;
+            fallback  = 'https://play.google.com/store/apps/details?id=pk.com.telenor.phoenix';
+        }
+        const timer = setTimeout(() => { window.location.href = fallback; }, 1500);
+        window.location.href = deepLink;
+        setTimeout(() => clearTimeout(timer), 100);
+    }
+
+    /* ========== SCROLL REVEAL ========== */
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach((el, i) => {
+        // Stagger cards in same grid
+        el.style.transitionDelay = (i % 4) * 0.07 + 's';
+        revealObserver.observe(el);
+    });
+</script>
 </body>
 </html>
