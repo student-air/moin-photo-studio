@@ -1519,13 +1519,13 @@
         </div>
 
         <div class="pm-details">
-            <div class="pm-details-name" style="margin:0;">Account: <strong style="color:var(--amber-300);">Moin Photo Studio</strong></div>
+            <div class="pm-details-name" style="margin:0;">Account: <strong style="color:var(--amber-300);">Moin Studio</strong></div>
         </div>
 
         <!-- QR Code — encodes jazzcash:// deep link. Replace src with your real QR image when ready -->
         <div class="qr-wrap">
             <img
-                src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&color=FFCA28&bgcolor=1A1710&data=jazzcash%3A%2F%2Fsend%3Fphone%3D923032241758%26amount%3D"
+                src="jazzcash_QR.jpeg"
                 alt="Scan to open JazzCash app"
                 class="qr-img"
                 loading="lazy"
@@ -1537,7 +1537,7 @@
             <button class="pm-btn pm-btn-primary" onclick="openPaymentApp('jazzcash')">
                 📱 Open JazzCash App
             </button>
-            <button class="pm-btn pm-btn-secondary" id="jazzcash-copy-btn" onclick="copyToClipboard('923032241758', 'jazzcash')">
+            <button class="pm-btn pm-btn-secondary" id="jazzcash-copy-btn" onclick="copyToClipboard('03032241758', 'jazzcash')">
                 📋 Copy Number
             </button>
         </div>
@@ -1557,13 +1557,13 @@
         </div>
 
         <div class="pm-details">
-            <div class="pm-details-name" style="margin:0;">Account: <strong style="color:var(--amber-300);">Moin Photo Studio</strong></div>
+            <div class="pm-details-name" style="margin:0;">Account: <strong style="color:var(--amber-300);">Moin Studio</strong></div>
         </div>
 
         <!-- QR Code — encodes easypaisa:// deep link. Replace src with your real QR image when ready -->
         <div class="qr-wrap">
             <img
-                src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&color=FFCA28&bgcolor=1A1710&data=easypaisa%3A%2F%2Fsend%3Fphone%3D923032241758%26amount%3D"
+                src="jazzcash_QR.jpeg"
                 alt="Scan to open EasyPaisa app"
                 class="qr-img"
                 loading="lazy"
@@ -1575,7 +1575,7 @@
             <button class="pm-btn pm-btn-primary" onclick="openPaymentApp('easypaisa')">
                 📱 Open EasyPaisa App
             </button>
-            <button class="pm-btn pm-btn-secondary" id="easypaisa-copy-btn" onclick="copyToClipboard('923032241758', 'easypaisa')">
+            <button class="pm-btn pm-btn-secondary" id="easypaisa-copy-btn" onclick="copyToClipboard('03032241758', 'easypaisa')">
                 📋 Copy Number
             </button>
         </div>
@@ -1845,7 +1845,7 @@
 
     /* ========== DEEP LINK ========== */
     function openPaymentApp(appName) {
-        const phoneNumber = '923032241758';
+        const phoneNumber = '03032241758';
         let deepLink = '';
         let fallback = '';
         if (appName === 'jazzcash') {
